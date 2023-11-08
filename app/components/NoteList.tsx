@@ -1,5 +1,6 @@
 import type { Note } from "~/types/interfaces";
 import styles from "~/styles/note-list.css";
+import { Suspense } from "react";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
@@ -16,13 +17,16 @@ function NoteList({ notes }: { notes: Note[] }) {
                 <li>#{index + 1}</li>
                 <li>
                   <time dateTime={note.id}>
-                    {new Date(note.id).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {/* needed to add Suspense to get rid of hyrdation issues using Date */}
+                    <Suspense fallback={null}>
+                      {new Date(note.id).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Suspense>
                   </time>
                 </li>
               </ul>
