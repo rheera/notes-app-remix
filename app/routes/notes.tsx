@@ -4,7 +4,12 @@ import {
   type LinksFunction,
   type MetaFunction,
 } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import {
+  Link,
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
 import NoteList, { links as noteListLinks } from "~/components/NoteList";
 import { getStoredNotes, storeNotes } from "~/data/noteUtils";
@@ -52,6 +57,34 @@ export default function NotesPage() {
     <main>
       <NewNote />
       <NoteList notes={notes} />
+    </main>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>Oops</h1>
+        <p>Status: {error.status}</p>
+        <p>{error.data.message}</p>
+      </div>
+    );
+  }
+
+  let errorMessage = "Unknown error";
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+  return (
+    <main className="error">
+      <h1>An error related to your notes occurred!</h1>
+      <p>{errorMessage}</p>
+      <p>
+        Back to <Link to="/">Safety</Link>
+      </p>
     </main>
   );
 }
