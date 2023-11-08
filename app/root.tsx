@@ -42,19 +42,20 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
 
+  let errorContent: { message: string; status: number | null } = {
+    message: "Unknown error",
+    status: null,
+  };
+
   if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>Oops</h1>
-        <p>Status: {error.status}</p>
-        <p>{error.data.message}</p>
-      </div>
-    );
+    errorContent = {
+      message: error.data?.message,
+      status: error.status,
+    };
   }
 
-  let errorMessage = "Unknown error";
   if (error instanceof Error) {
-    errorMessage = error.message;
+    errorContent.message = error.message;
   }
 
   return (
@@ -72,7 +73,8 @@ export function ErrorBoundary() {
         </header>
         <main className="error">
           <h1>An error occurred</h1>
-          <p>{errorMessage}</p>
+          {errorContent.status && <p>{errorContent.status}</p>}
+          <p>{errorContent.message}</p>
           <p>
             Back to <Link to="/">Safety</Link>
           </p>

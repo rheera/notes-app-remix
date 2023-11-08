@@ -12,7 +12,7 @@ function NewNote() {
 
   return (
     <Form method="post" id="note-form">
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className="info-message">{errorMessage}</p>}
       <p>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" name="title" required />

@@ -3,6 +3,7 @@ import {
   type ActionFunctionArgs,
   type LinksFunction,
   type MetaFunction,
+  json,
 } from "@remix-run/node";
 import {
   Link,
@@ -27,7 +28,17 @@ export const links: LinksFunction = () => {
 };
 
 export const loader = async () => {
-  return await getStoredNotes();
+  const notes = await getStoredNotes();
+  if (!notes || notes.length === 0) {
+    throw json(
+      { message: "Could not find any notes" },
+      {
+        status: 404,
+        statusText: "Not Found",
+      }
+    );
+  }
+  return notes;
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -66,11 +77,11 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <div>
-        <h1>Oops</h1>
-        <p>Status: {error.status}</p>
-        <p>{error.data.message}</p>
-      </div>
+      <main>
+        <NewNote />
+        {/* <p>Status: {error.status}</p> */}
+        <p className="info-message">{error.data.message}</p>
+      </main>
     );
   }
 
