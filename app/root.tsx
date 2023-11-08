@@ -49,7 +49,8 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     errorContent = {
-      message: error.data?.message,
+      message:
+        error.data.message === undefined ? error.data : error.data.message,
       status: error.status,
     };
   }
@@ -57,7 +58,6 @@ export function ErrorBoundary() {
   if (error instanceof Error) {
     errorContent.message = error.message;
   }
-
   return (
     <html lang="en">
       <head>

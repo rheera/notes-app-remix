@@ -14,7 +14,6 @@ import {
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
 import NoteList, { links as noteListLinks } from "~/components/NoteList";
 import { getStoredNotes, storeNotes } from "~/data/noteUtils";
-import type { Note } from "~/types/interfaces";
 
 export const meta: MetaFunction = () => {
   return [
@@ -62,7 +61,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function NotesPage() {
-  const notes = useLoaderData() as Note[];
+  const notes = useLoaderData<typeof loader>();
 
   return (
     <main>
