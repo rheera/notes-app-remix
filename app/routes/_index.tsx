@@ -5,7 +5,7 @@ import homeStyles from "~/styles/home.css";
 export const meta: MetaFunction = () => {
   return [
     { title: "Notes App Home Page" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Welcome to the Notes app!" },
   ];
 };
 
