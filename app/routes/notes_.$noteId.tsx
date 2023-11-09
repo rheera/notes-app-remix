@@ -1,5 +1,6 @@
 import {
   json,
+  type MetaFunction,
   type LinksFunction,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
@@ -19,6 +20,13 @@ export const links: LinksFunction = () => [
     href: noteDetailStyles,
   },
 ];
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    { title: data.title },
+    { name: "description", content: "View your note" },
+  ];
+};
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   // invariant(params.noteId, "Missing note param");
@@ -49,6 +57,8 @@ export default function NoteDetails() {
     </main>
   );
 }
+
+// no need for its' own error boundary since it's so similar to the root one
 
 export function ErrorBoundary() {
   const error = useRouteError();

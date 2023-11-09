@@ -17,7 +17,7 @@ import { getStoredNotes, storeNotes } from "~/data/noteUtils";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Notes App notes page" },
+    { title: "Notes Page" },
     { name: "description", content: "See all your notes and write new ones" },
   ];
 };
